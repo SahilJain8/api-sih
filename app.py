@@ -1,4 +1,4 @@
-from flask import Flask, json, request
+from flask import Flask, request
 import requests
 import polyline
 
@@ -26,5 +26,8 @@ def data():
         return return_list
 
 
+@app.rout('/')
+def home():
+    return "hello"
 if __name__ == "__main__":
     app.run()

@@ -26,8 +26,11 @@ def data():
         return return_list
 
 
-@app.rout('/')
+@app.route("/")
 def home():
     return "hello"
+
+
+
 if __name__ == "__main__":
     app.run()

@@ -40,8 +40,8 @@ def data():
             if current_points >= max_points:
                 break
         
-        return_list.append(float(driv_loc_lat))
-        return_list.append(float(driv_loc_long))
+        return_list.append(driv_loc_lat)
+        return_list.append(driv_loc_long)
         
         return return_list
 

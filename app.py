@@ -2,7 +2,8 @@ from flask import Flask, request
 import requests
 import polyline
 import json
-
+import pymongo
+import datetime
 from pymongo.mongo_client import MongoClient
 uri = "mongodb+srv://sahil:gZrTSwnfaex5I2IE@hackton.u1vq7f7.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri)
@@ -60,14 +61,19 @@ def driver_data():
     if request.method == 'POST':
         driv_loc_lat = request.form['driver_loc_lat']
         driv_loc_long = request.form['driver_loc_long']
+        
 
         data = {"driv_loc_lat":driv_loc_lat,
-                "driv_loc_long": driv_loc_long    }
+                "driv_loc_long": driv_loc_long ,
+                   "date": datetime.datetime.now(tz=datetime.timezone.utc) }
+        
+        print(data)
         
         db = client["sih"]
         collection = db["driver_data"]
 
         post_id = collection.insert_one(data)
+        print(post_id)
 
         if post_id:
             return "ok"
@@ -75,6 +81,14 @@ def driver_data():
             return "error"
     
 
+
+@app.route("/get_driver_data")
+def get_data():
+    db = client["sih"]
+    collection = db["driver_data"]
+    cursor = collection.find().sort([('date', -1)]).limit(1)
+
+    return cursor
 
 
 

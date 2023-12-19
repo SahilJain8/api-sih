@@ -11,6 +11,7 @@ def data():
     if request.method == 'POST':
         start = request.form['origin']
         end = request.form['destination']
+        driv_loc = request.form['driver_loc']
         url = f"https://maps.googleapis.com/maps/api/directions/json?destination={end}e&origin={start}&key=AIzaSyAKObdT8TzL9VA1ipksnhtkFFVm_qS_XTI&model=bus"
         response = requests.get(url)
         response_dict = json.loads(response.text)
@@ -25,6 +26,7 @@ def data():
 
             return_list.append(points[0][0])
             return_list.append(points[0][1])
+        return_list.append(driv_loc)
         return return_list
 
 

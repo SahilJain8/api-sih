@@ -3,6 +3,10 @@ import requests
 import polyline
 import json
 
+from pymongo.mongo_client import MongoClient
+uri = "mongodb+srv://sahil:gZrTSwnfaex5I2IE@hackton.u1vq7f7.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(uri)
+
 app = Flask(__name__)
 
 @app.route('/handle_post', methods=['POST'])
@@ -10,8 +14,7 @@ def data():
     if request.method == 'POST':
         start = request.form['origin']
         end = request.form['destination']
-        driv_loc_lat = request.form['driver_loc_lat']
-        driv_loc_long = request.form['driver_loc_long']
+        
         url = f"https://maps.googleapis.com/maps/api/directions/json?destination={end}&origin={start}&key=AIzaSyAKObdT8TzL9VA1ipksnhtkFFVm_qS_XTI&model=bus"
         response = requests.get(url)
         response_dict = json.loads(response.text)
@@ -40,8 +43,8 @@ def data():
             if current_points >= max_points:
                 break
         
-        return_list.append(float(driv_loc_lat))
-        return_list.append(float(driv_loc_long))
+        # return_list.append(float(driv_loc_lat))
+        # return_list.append(float(driv_loc_long))
         
         return return_list
 
@@ -50,6 +53,29 @@ def data():
 @app.route("/")
 def home():
     return "hello"
+
+
+@app.route("/driver_data")
+def driver_data():
+    driv_loc_lat = request.form['driver_loc_lat']
+    driv_loc_long = request.form['driver_loc_long']
+
+    data = {"driv_loc_lat":driv_loc_lat,
+            "driv_loc_long": driv_loc_long    }
+    
+    db = client["sih"]
+    collection = db["driver_data"]
+
+    post_id = collection.insert_one(data)
+
+    if post_id:
+        return "ok"
+    else:
+        return "error"
+    
+
+
+
 
 
 

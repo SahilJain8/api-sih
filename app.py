@@ -23,7 +23,8 @@ def data():
         for data in polyline_points:
             points = polyline.decode(data)
 
-            return_list.append(points[0])
+            return_list.append(points[0][0])
+            return_list.append(points[0][1])
         return return_list
 
 

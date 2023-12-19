@@ -55,23 +55,24 @@ def home():
     return "hello"
 
 
-@app.route("/driver_data")
+@app.route("/driver_data", methods=['POST'])
 def driver_data():
-    driv_loc_lat = request.form['driver_loc_lat']
-    driv_loc_long = request.form['driver_loc_long']
+    if request.method == 'POST':
+        driv_loc_lat = request.form['driver_loc_lat']
+        driv_loc_long = request.form['driver_loc_long']
 
-    data = {"driv_loc_lat":driv_loc_lat,
-            "driv_loc_long": driv_loc_long    }
-    
-    db = client["sih"]
-    collection = db["driver_data"]
+        data = {"driv_loc_lat":driv_loc_lat,
+                "driv_loc_long": driv_loc_long    }
+        
+        db = client["sih"]
+        collection = db["driver_data"]
 
-    post_id = collection.insert_one(data)
+        post_id = collection.insert_one(data)
 
-    if post_id:
-        return "ok"
-    else:
-        return "error"
+        if post_id:
+            return "ok"
+        else:
+            return "error"
     
 
 

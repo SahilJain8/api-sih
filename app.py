@@ -15,7 +15,7 @@ def data():
         url = f"https://maps.googleapis.com/maps/api/directions/json?destination={end}&origin={start}&key=AIzaSyAKObdT8TzL9VA1ipksnhtkFFVm_qS_XTI&model=bus"
         response = requests.get(url)
         response_dict = json.loads(response.text)
-        print(response_dict)
+      
         polyline_points = []
         for route in response_dict['routes']:
             for step in route['legs'][0]['steps']:

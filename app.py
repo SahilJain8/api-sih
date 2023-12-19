@@ -24,9 +24,10 @@ def data():
         return_list = []
         for data in polyline_points:
             points = polyline.decode(data)
-
-            return_list.append(points[0][0])
-            return_list.append(points[0][1])
+            for i in range(len(points)):
+                return_list.append(points[i][0])
+                return_list.append(points[i][1])
+      
         return_list.append(float(driv_loc_lat))
         return_list.append(float(driv_loc_long))
         return return_list

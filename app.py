@@ -12,7 +12,7 @@ def data():
         start = request.form['origin']
         end = request.form['destination']
         driv_loc_lat = request.form['driver_loc_lat']
-        driv_loc_long = request.from['driver_loc_long']
+        driv_loc_long = request.form['driver_loc_long']
         url = f"https://maps.googleapis.com/maps/api/directions/json?destination={end}e&origin={start}&key=AIzaSyAKObdT8TzL9VA1ipksnhtkFFVm_qS_XTI&model=bus"
         response = requests.get(url)
         response_dict = json.loads(response.text)
@@ -27,8 +27,8 @@ def data():
 
             return_list.append(points[0][0])
             return_list.append(points[0][1])
-        return_list.append(double(driv_loc_lat))
-        return_list.append(double(driv_loc_long))
+        return_list.append(float(driv_loc_lat))
+        return_list.append(float(driv_loc_long))
         return return_list
 
 

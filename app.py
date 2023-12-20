@@ -14,6 +14,8 @@ def data():
     if request.method == 'POST':
         start = request.form['origin']
         end = request.form['destination']
+        driv_loc_lat = request.form['driver_loc_lat']
+        driv_loc_long = request.form['driver_loc_long']
         
         url = f"https://maps.googleapis.com/maps/api/directions/json?destination={end}&origin={start}&key=AIzaSyAKObdT8TzL9VA1ipksnhtkFFVm_qS_XTI&model=bus"
         response = requests.get(url)
@@ -54,8 +56,8 @@ def data():
 
         # return_list.append(float(driv_loc_lat))
         # return_list.append(float(driv_loc_long))
-        return_list.append(co_ordinates[-1])
-        return_list.append(co_ordinates[-2])
+        return_list.append(float( driv_loc_lat ))
+        return_list.append(float( driv_loc_long))
         
         return return_list
 

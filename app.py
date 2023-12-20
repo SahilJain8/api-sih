@@ -2,7 +2,6 @@ from flask import Flask, request
 import requests
 import polyline
 import json
-import pymongo
 import datetime
 from pymongo.mongo_client import MongoClient
 uri = "mongodb+srv://sahil:gZrTSwnfaex5I2IE@hackton.u1vq7f7.mongodb.net/?retryWrites=true&w=majority"
@@ -85,10 +84,15 @@ def driver_data():
 @app.route("/get_driver_data")
 def get_data():
     db = client["sih"]
+    co_ordinates = []
     collection = db["driver_data"]
-    cursor = collection.find().sort([('date', -1)]).limit(1)
+    cursor = collection.find({})
+    for data in cursor:
+     
+        co_ordinates.append(data['driv_loc_lat'])
+        co_ordinates.append(data['driv_loc_long'])
 
-    return cursor
+    return co_ordinates[-2:]
 
 
 

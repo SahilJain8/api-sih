@@ -34,7 +34,7 @@ def data():
             points = polyline.decode(data)
             for i in range(len(points)):
                 if current_points < max_points:
-                    print(return_list)
+                 
                     return_list.append(points[i][0])
                     return_list.append(points[i][1])
                     current_points += 1
@@ -43,8 +43,19 @@ def data():
             if current_points >= max_points:
                 break
         
+        db = client["sih"]
+        co_ordinates = []
+        collection = db["driver_data"]
+        cursor = collection.find({})
+        for data in cursor:
+        
+            co_ordinates.append(data['driv_loc_lat'])
+            co_ordinates.append(data['driv_loc_long'])
+
         # return_list.append(float(driv_loc_lat))
         # return_list.append(float(driv_loc_long))
+        return_list.append(co_ordinates[-1])
+        return_list.append(co_ordinates[-2])
         
         return return_list
 
@@ -62,8 +73,8 @@ def driver_data():
         driv_loc_long = request.form['driver_loc_long']
         
 
-        data = {"driv_loc_lat":driv_loc_lat,
-                "driv_loc_long": driv_loc_long ,
+        data = {"driv_loc_lat":float(driv_loc_lat)  ,
+                "driv_loc_long":float( driv_loc_long) ,
                    "date": datetime.datetime.now(tz=datetime.timezone.utc) }
         
         print(data)
@@ -72,7 +83,6 @@ def driver_data():
         collection = db["driver_data"]
 
         post_id = collection.insert_one(data)
-        print(post_id)
 
         if post_id:
             return "ok"
